@@ -1,6 +1,7 @@
-fastmcp>=2.10
-fastapi~=0.111
+fastapi~=0.116          # already installed
+fastapi-mcp==0.3.7      
 uvicorn[standard]
+
 httpx
 psutil
 keyring
