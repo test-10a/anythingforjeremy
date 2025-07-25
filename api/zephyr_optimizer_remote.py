@@ -22,5 +22,5 @@ async def optimize_accounts() -> JSONResponse:
     return JSONResponse(content="Zephyr optimizer completed successfully.")
 
 # ── Expose every FastAPI route as an MCP tool at /mcp ─────────────────────
-mcp = FastApiMCP(app)  # zero‑config
+mcp = FastApiMCP(app, path="/")  # zero‑config
 mcp.mount()            # mounts at /mcp; stateless by default
