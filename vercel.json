@@ -1,4 +1,13 @@
 {
-  "functions": { "api/zephyr_optimizer_remote.py": { "maxDuration": 60 } },
-  "routes": [ { "src": "/mcp(/.*)?", "dest": "/api/zephyr_optimizer_remote.py" } ]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+
+  "functions": {
+    "api/zephyr_optimizer_remote.py": { "maxDuration": 60 }
+  },
+  "routes": [
+    {
+      "src": "/mcp(.*)",                      
+      "dest": "/api/zephyr_optimizer_remote.py/mcp$1"
+    }
+  ]
 }
