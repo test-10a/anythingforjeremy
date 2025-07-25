@@ -1,19 +1,30 @@
 #!/usr/bin/env python3
 """
-Remote Zephyr Optimizer MCP server – FastAPI‑MCP 0.3.x
+Minimal JSON-RPC handler for Zephyr optimizer — works on Vercel
 """
 
-from fastapi import FastAPI
-from fastapi_mcp import FastApiMCP
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
-# ── Define one regular FastAPI route.
-#    `operation_id` becomes the MCP method name.
-@app.post("/optimize_accounts", operation_id="optimize_accounts")
-async def optimize_accounts():
-    return "Zephyr optimizer completed successfully."
+@app.post("/mcp")  # <- endpoint Vercel will rewrite to
+async def handle_rpc(request: Request) -> JSONResponse:
+    try:
+        body = await request.json()
+        method = body.get("method")
+        rpc_id = body.get("id", None)
 
-# ── Turn every FastAPI route into an MCP tool.
-mcp = FastApiMCP(app)   # zero‑configuration
-mcp.mount()             # adds POST /mcp  (no trailing slash)
+        if method == "optimize_accounts":
+            result = "Zephyr optimizer completed successfully."
+            return JSONResponse(content={"jsonrpc": "2.0", "id": rpc_id, "result": result})
+
+        return JSONResponse(
+            content={"jsonrpc": "2.0", "id": rpc_id, "error": {"code": -32601, "message": "Method not found"}},
+            status_code=400,
+        )
+    except Exception as e:
+        return JSONResponse(
+            content={"jsonrpc": "2.0", "id": None, "error": {"code": -32603, "message": str(e)}},
+            status_code=500,
+        )
