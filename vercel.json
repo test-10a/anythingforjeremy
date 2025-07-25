@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "api/zephyr_optimizer_remote.py": {
+      "runtime": "python",
+      "maxDuration": 800,
+      "memory": 1024
+    }
+  },
+  "routes": [
+    { "src": "/(.*)", "dest": "api/zephyr_optimizer_remote.py" }
+  ]
+}
