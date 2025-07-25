@@ -1,9 +1,3 @@
-fastapi~=0.116          # already installed
-fastapi-mcp==0.3.7      
+fastapi~=0.116
+fastapi-mcp==0.3.7
 uvicorn[standard]
-
-httpx
-psutil
-keyring
-pyperclip
-pillow
